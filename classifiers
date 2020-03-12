@@ -1,0 +1,77 @@
+"""
+build a set of classifiers to get metal features from them
+"""
+
+from sklearn.metrics import accuracy_score, log_loss
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC, LinearSVC, NuSVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+import time
+
+# Logging for Visual Comparison
+log_cols=["Classifier", "Accuracy", "Log Loss"]
+log = pd.DataFrame(columns=log_cols)
+
+classifiers = [
+    #  KNeighborsClassifier(1),
+    #  KNeighborsClassifier(2),
+    # KNeighborsClassifier(4),
+    # KNeighborsClassifier(8),
+    # KNeighborsClassifier(16),
+    # KNeighborsClassifier(32),
+    # KNeighborsClassifier(64),
+    # KNeighborsClassifier(128),
+
+    # SVC(kernel='rbf', C=0.025, probability=True),
+    # DecisionTreeClassifier(),
+    # RandomForestClassifier(),
+    # AdaBoostClassifier(),
+    # GradientBoostingClassifier(),
+    # GaussianNB(),
+    # LinearDiscriminantAnalysis(),
+    # QuadraticDiscriminantAnalysis()
+]
+
+modelno = 0
+
+for clf in classifiers:
+    start = time.time()
+    clf.fit(x_train, y_train)
+    name = clf.__class__.__name__
+    
+    print('='*30)
+    print(name)
+    
+    print('****Results****')
+    print('Training time: {:.2f}'.format(time.time()-start))
+    train_predictions = clf.predict(x_train)
+    test_predictions = clf.predict(x_test)
+    acc = accuracy_score(y_test, test_predictions)
+    print('Accuracy: {:.4%}'.format(acc))
+    
+    train_predictions2 = clf.predict_proba(x_train)
+    test_predictions2 = clf.predict_proba(x_test)
+    l1 = log_loss(y_test, test_predictions2)
+    print('Log Loss: {}'.format(l1))
+    
+    log_entry = pd.DataFrame([[name, acc*100, l1]], columns=log_cols)
+    log = log.append(log_entry)
+
+    print('Total time: {:.2f}'.format(time.time()-start))
+    
+    modelno += 1 
+
+    if modelno == 1:
+      feature_train = train_predictions
+      feature_test = test_predictions
+
+    if modelno > 1:
+      feature_train = np.vstack((feature_train,train_predictions))
+      feature_test = np.vstack((feature_test,test_predictions))
+
+print("="*30)
+print(feature.shape)

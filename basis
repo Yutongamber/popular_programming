@@ -3,3 +3,9 @@ import numpy as np
 # add a matrix to another one
 
 np.append(a,a,axis=1)
+
+# count non zero element by row
+
+np.count_nonzero([[1,2],[3,4]],axis=1)
+
+

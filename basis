@@ -1,0 +1,5 @@
+import numpy as np
+
+# add a matrix to another one
+
+np.append(a,a,axis=1)

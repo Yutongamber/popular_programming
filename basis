@@ -2,7 +2,9 @@ import numpy as np
 
 # add a matrix to another one
 
+a = np.array([[1,2],[3,4]])
 np.append(a,a,axis=1)
+np.append(a,1)
 
 # count non zero element by row
 

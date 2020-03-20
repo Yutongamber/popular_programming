@@ -46,3 +46,10 @@ df.drop(['column_nameA', 'column_nameB'], axis=1, inplace=True)
 
 ## Method 4: to drop by column number instead of by column label
 df = df.drop(df.columns[[0, 1, 3]], axis=1)
+
+
+# read_to csv
+
+import os
+os.chdir("../Dave") # add a path
+hrv_atong = pd.read_csv('HR.csv')
